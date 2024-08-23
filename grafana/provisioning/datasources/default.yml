@@ -1,0 +1,41 @@
+apiVersion: 1
+
+datasources:
+  - id: 1
+    name: Prometheus
+    type: prometheus
+    typeName: Prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    jsonData:
+      httpMethod: POST
+      timeInterval: 5s
+
+  - id: 2
+    name: Jaeger
+    type: jaeger
+    typeName: Jaeger
+    access: proxy
+    url: http://jaeger:16686
+    isDefault: false
+    jsonData:
+      httpMethod: POST
+
+  - id: 3
+    name: Quickwit OTEL Logs
+    type: quickwit-quickwit-datasource
+    typeLogoUrl: public/plugins/quickwit-quickwit-datasource/img/logo.svg
+    access: proxy
+    url: http://quickwit:7280/api/v1
+    jsonData:
+      index: otel-logs-v0_7
+
+  - id: 4
+    name: Quickwit OTEL Traces
+    type: quickwit-quickwit-datasource
+    typeLogoUrl: public/plugins/quickwit-quickwit-datasource/img/logo.svg
+    access: proxy
+    url: http://quickwit:7280/api/v1
+    jsonData:
+      index: otel-traces-v0_7
