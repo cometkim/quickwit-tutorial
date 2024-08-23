@@ -1,0 +1,86 @@
+volumes:
+  qwdata:
+  grafana_conf:
+  grafana_data:
+
+services:
+  quickwit:
+    image: quickwit/quickwit:${QW_VERSION:-0.8.2}
+    command: ["run"]
+    volumes:
+      - qwdata:/quickwit/qwdata:rw
+      - ./quickwit:/home/quickwit/quickwit:ro
+    environment:
+      QW_ENABLE_OPENTELEMETRY_OTLP_EXPORTER: "true"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://localhost:7281"
+    # ports:
+    #   - "7280:7280"
+    labels:
+      dev.orbstack.http-port: "7280"
+
+  jaeger:
+    image: jaegertracing/jaeger-query:${JAEGER_VERSION:-1.60.0}
+    environment:
+      SPAN_STORAGE_TYPE: grpc
+      GRPC_STORAGE_SERVER: "quickwit:7281"
+      GRPC_STORAGE_TLS: "false"
+    # ports:
+    #   - "16686:16686"
+    labels:
+      dev.orbstack.http-port: "16686"
+
+  grafana:
+    image: grafana/grafana-oss:${GRAFANA_VERSION:-11.1.4}
+    volumes:
+      - grafana_conf:/etc/grafana:rw
+      - grafana_data:/var/lib/grafana:rw
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    environment:
+      GF_INSTALL_PLUGINS: "https://github.com/quickwit-oss/quickwit-datasource/releases/download/v0.4.6/quickwit-quickwit-datasource-0.4.6.zip;quickwit-quickwit-datasource"
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+    # ports:
+    #   - "3000:3000"
+    labels:
+      dev.orbstack.http-port: "3000"
+
+  prometheus:
+    image: prom/prometheus:${PROMETHEUS_VERSION:-v2.53.2}
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    # ports:
+    #   - "9090:9090"
+    labels:
+      dev.orbstack.http-port: "9090"
+
+  ingest-hdfs-logs-10k:
+    image: quickwit/quickwit:${QW_VERSION:-0.8.2}
+    profiles:
+      - ingest-hdfs-logs-10k
+    volumes:
+      - qwdata:/quickwit/qwdata:rw
+      - ./quickwit/index-hdfs-logs.yml:/quickwit/index-config.yml:ro
+      - ./quickwit/ingest-hdfs-logs-10k.sh:/quickwit/ingest.sh:ro
+    entrypoint: ["/quickwit/ingest.sh"]
+
+  ingest-hdfs-logs-20m:
+    image: quickwit/quickwit:${QW_VERSION:-0.8.2}
+    profiles:
+      - ingest-hdfs-logs-20m
+    volumes:
+      - qwdata:/quickwit/qwdata:rw
+      - ./quickwit/index-hdfs-logs.yml:/quickwit/index-config.yml:ro
+      - ./quickwit/ingest-hdfs-logs-20m.sh:/quickwit/ingest.sh:ro
+    entrypoint: ["/quickwit/ingest.sh"]
+
+  ingest-stackoverflow:
+    image: quickwit/quickwit:${QW_VERSION:-0.8.2}
+    profiles:
+      - ingest-stackoverflow
+    volumes:
+      - qwdata:/quickwit/qwdata:rw
+      - ./quickwit/index-stackoverflow.yml:/quickwit/index-config.yml:ro
+      - ./quickwit/ingest-stackoverflow.sh:/quickwit/ingest.sh:ro
+    entrypoint: ["/quickwit/ingest.sh"]
