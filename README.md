@@ -46,6 +46,17 @@ compose includes these pre-configured services
 
 - `prometheus`
   - Scrape Quickwit metrics
+ 
+- `otel-collector`
+  - OpenTelemetry collector
+  - Endpoints:
+    - OTLP gRPC: 4317
+    - OTLP HTTP: 4318
+
+- `demo-service`
+  - Simple GraphQL service with OpenTelemetry OTLP trace/log setup
+  - Endpoints:
+    - [GraphiQL](https://demo-service.quickwit-tutorial.orb.local/graphql)
 
 ### Ingesting sample data
 
