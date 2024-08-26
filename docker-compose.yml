@@ -55,6 +55,31 @@ services:
     labels:
       dev.orbstack.http-port: "9090"
 
+  otel-collector:
+    image: otel/opentelemetry-collector:${OTEL_VERSION:-0.107.0}
+    command: ["--config=/etc/otel-collector-config.yml"]
+    volumes:
+      - ./otel-collector.yml:/etc/otel-collector-config.yml:ro
+    # ports:
+    #   - "1888:1888"   # pprof extension
+    #   - "8888:8888"   # Prometheus metrics exposed by the collector
+    #   - "8889:8889"   # Prometheus exporter metrics
+    #   - "13133:13133" # health_check extension
+    #   - "4317:4317"   # OTLP gRPC receiver
+    #   - "4318:4318"   # OTLP http receiver
+    #   - "55679:55679" # zpages extension
+
+  demo-service:
+    build: demo-service
+    depends_on:
+      - otel-collector
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+    # ports:
+    #   - "4000:4000"
+    labels:
+      dev.orbstack.http-port: "4000"
+
   ingest-hdfs-logs-10k:
     image: quickwit/quickwit:${QW_VERSION:-0.8.2}
     profiles:
