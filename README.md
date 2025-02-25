@@ -62,6 +62,6 @@ compose includes these pre-configured services
 
 While running services, you can create index with pre-configured config and data.
 
-- HDFS logs (10K): `docker compose up ingest-hdfs-10k`
-- HDFS logs (20M): `docker compose up ingest-hdfs-20m`
+- HDFS logs (10K): `docker compose up ingest-hdfs-logs-10k`
+- HDFS logs (20M): `docker compose up ingest-hdfs-logs-20m`
 - Stackoverflow posts (10K): `docker compose up ingest-stackoverflow-10k`
