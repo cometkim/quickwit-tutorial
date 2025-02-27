@@ -19,7 +19,7 @@ services:
       dev.orbstack.http-port: "7280"
 
   jaeger:
-    image: jaegertracing/jaeger-query:${JAEGER_VERSION:-1.60.0}
+    image: jaegertracing/jaeger-query:${JAEGER_VERSION:-1.66.0}
     environment:
       SPAN_STORAGE_TYPE: grpc
       GRPC_STORAGE_SERVER: "quickwit:7281"
@@ -30,7 +30,7 @@ services:
       dev.orbstack.http-port: "16686"
 
   grafana:
-    image: grafana/grafana-oss:${GRAFANA_VERSION:-11.1.4}
+    image: grafana/grafana-oss:${GRAFANA_VERSION:-11.3.4}
     volumes:
       - grafana_conf:/etc/grafana:rw
       - grafana_data:/var/lib/grafana:rw
@@ -47,7 +47,7 @@ services:
       dev.orbstack.http-port: "3000"
 
   prometheus:
-    image: prom/prometheus:${PROMETHEUS_VERSION:-v2.53.2}
+    image: prom/prometheus:${PROMETHEUS_VERSION:-v3.2.1}
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     # ports:
@@ -56,7 +56,7 @@ services:
       dev.orbstack.http-port: "9090"
 
   otel-collector:
-    image: otel/opentelemetry-collector:${OTEL_VERSION:-0.107.0}
+    image: otel/opentelemetry-collector:${OTEL_VERSION:-0.120.0}
     command: ["--config=/etc/otel-collector-config.yml"]
     volumes:
       - ./otel-collector.yml:/etc/otel-collector-config.yml:ro
