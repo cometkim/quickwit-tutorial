@@ -1,7 +1,13 @@
-FROM node:22.7.0-alpine
+FROM node:23-bookworm-slim
+
+WORKDIR /app
 
 COPY . .
-RUN npm install
+
+RUN --mount=type=cache,target=/root/.npm/_cacache \
+  npm install
 
 EXPOSE 4000
-CMD ["index.js"]
+
+ENV NODE_OPTIONS="--loader=@opentelemetry/instrumentation/hook.mjs --import /app/src/instrumentation.js"
+CMD ["/app/src/server.js"]

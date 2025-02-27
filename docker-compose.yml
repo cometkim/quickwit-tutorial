@@ -74,7 +74,10 @@ services:
     depends_on:
       - otel-collector
     environment:
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+      OTEL_TRACES_EXPORTER: "otlp"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
+      OTEL_NODE_RESOURCE_DETECTORS: "env,host,os"
+      OTEL_SERVICE_NAME: "demo-service"
     # ports:
     #   - "4000:4000"
     labels:

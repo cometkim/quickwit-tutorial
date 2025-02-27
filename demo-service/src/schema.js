@@ -12,7 +12,7 @@ export const schema = createSchema({
   resolvers: {
     Query: {
       greet: (_root, args) => {
-        logger.debug `Greeting ${args.name}`;
+        logger.info('Requested greet for {name}', { name: args.name });
         return `Hello, ${args.name}!`;
       },
     },
