@@ -29,7 +29,7 @@ datasources:
     access: proxy
     url: http://quickwit:7280/api/v1
     jsonData:
-      index: otel-logs-v0_7
+      index: otel-logs-v0_9
 
   - id: 4
     name: Quickwit OTEL Traces
@@ -38,4 +38,4 @@ datasources:
     access: proxy
     url: http://quickwit:7280/api/v1
     jsonData:
-      index: otel-traces-v0_7
+      index: otel-traces-v0_9

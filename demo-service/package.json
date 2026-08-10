@@ -3,18 +3,18 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "@envelop/opentelemetry": "^6.3.1",
-    "@logtape/logtape": "^0.8.2",
-    "@logtape/otel": "^0.3.0",
-    "@opentelemetry/api": "^1.9.0",
-    "@opentelemetry/auto-instrumentations-node": "^0.56.1",
-    "@opentelemetry/exporter-logs-otlp-http": "^0.57.2",
-    "@opentelemetry/exporter-trace-otlp-http": "^0.57.2",
-    "@opentelemetry/instrumentation": "^0.57.2",
-    "@opentelemetry/sdk-logs": "^0.57.2",
-    "@opentelemetry/sdk-node": "^0.57.2",
-    "@opentelemetry/sdk-trace-node": "^1.30.1",
-    "graphql": "^16.10.0",
-    "graphql-yoga": "^5.12.1"
+    "@envelop/opentelemetry": "^9.1.1",
+    "@logtape/logtape": "^2.3.0",
+    "@logtape/otel": "^2.3.0",
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/auto-instrumentations-node": "^0.79.0",
+    "@opentelemetry/exporter-logs-otlp-http": "^0.221.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.221.0",
+    "@opentelemetry/instrumentation": "^0.221.0",
+    "@opentelemetry/sdk-logs": "^0.221.0",
+    "@opentelemetry/sdk-node": "^0.221.0",
+    "@opentelemetry/sdk-trace-node": "^2.10.0",
+    "graphql": "^17.0.2",
+    "graphql-yoga": "^5.21.2"
   }
 }
